@@ -19,5 +19,7 @@ $countries = array(
                 array('AU', 'Australia', 'australia_nsw', 'australia_nsw', 'yes', 'yes')
                 );
 foreach ($countries as $country) {
-    Jojo::updateQuery('REPLACE INTO {cart_country} SET countrycode=?, name=?, region=?, defaultregion=?, special = ?, hasstates = ?', $country);
+    if (!Jojo::selectRow("SELECT * FROM {cart_country} where countrycode = ?", $country[0])) {
+      Jojo::updateQuery('REPLACE INTO {cart_country} SET countrycode=?, name=?, region=?, defaultregion=?, special = ?, hasstates = ?', $country);
+    }
 }
